@@ -1,0 +1,166 @@
+﻿<Window x:Class="WpfRichTextConverterTest.WpfWindows.MainWindow.MainWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				xmlns:cmd="clr-namespace:WpfRichTextConverterTest.Commands.MainWindow"
+        mc:Ignorable="d"
+				DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Title="AxDa.XamlDocConverter Testing Tool" MinHeight="100" MinWidth="800" Height="450" Width="1200"
+				>
+	<DockPanel>
+		<DockPanel.Resources>
+			<cmd:AboutCommand x:Key="AboutCmd"/>
+			<cmd:ClearCommand x:Key="ClearCmd"/>
+			<cmd:OptionsCommand x:Key="OptionsCmd"/>
+			<cmd:QuitCommand x:Key="QuitCmd"/>
+		</DockPanel.Resources>
+
+		<DockPanel.CommandBindings>
+			<CommandBinding Command="{StaticResource ResourceKey=AboutCmd}" Executed="AboutCmd_Executed"/>
+			<CommandBinding Command="{StaticResource ResourceKey=ClearCmd}" Executed="ClearCmd_Executed"/>
+			<CommandBinding Command="{StaticResource ResourceKey=OptionsCmd}" Executed="OptionsCmd_Executed"/>
+			<CommandBinding Command="{StaticResource ResourceKey=QuitCmd}" Executed="QuitCmd_Executed"/>
+		</DockPanel.CommandBindings>
+
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="_File">
+				<MenuItem Header="C_lear Text Boxes" Command="{StaticResource ResourceKey=ClearCmd}"/>
+				<Separator/>
+				<MenuItem Header="_Close" Command="{StaticResource ResourceKey=QuitCmd}"/>
+			</MenuItem>
+
+			<MenuItem Header="_Tools">
+				<MenuItem Header="_Options" Command="{StaticResource ResourceKey=OptionsCmd}"/>
+			</MenuItem>
+
+			<MenuItem Header="_About" Command="{StaticResource ResourceKey=AboutCmd}"/>
+		</Menu>
+		<Border Background="#567" Padding="3">
+			<DockPanel>
+				<DockPanel DockPanel.Dock="Bottom">
+					<Border DockPanel.Dock="Right" Padding="2">
+						<Button x:Name="ClearErrors" Content="Clear error list" Padding="6 2" VerticalAlignment="Center" Click="ClearErrors_Click"/>
+					</Border>
+
+					<ScrollViewer x:Name="ErrorScoll" MaxHeight="70" VerticalScrollBarVisibility="Auto" Padding="4 0">
+						<TextBlock x:Name="ErrorList" Foreground="Bisque" TextWrapping="WrapWithOverflow">
+				<d:TextBlock>
+					<Run>This is an</Run><LineBreak/>
+					<Run>error message</Run>
+				</d:TextBlock>
+						</TextBlock>
+					</ScrollViewer>
+				</DockPanel>
+
+				<Grid>
+
+					<Grid.Resources>
+						<Style TargetType="Border">
+							<Style.Setters>
+								<Setter Property="BorderBrush" Value="Silver"/>
+								<Setter Property="BorderThickness" Value="1"/>
+								<Setter Property="Margin" Value="3"/>
+							</Style.Setters>
+						</Style>
+						<Style TargetType="TextBox">
+							<Setter Property="FontFamily" Value="Consolas"/>
+						</Style>
+						<Style TargetType="TextBlock">
+							<Setter Property="Margin" Value="4 0"/>
+							<Setter Property="VerticalAlignment" Value="Center"/>
+							<Setter Property="Foreground" Value="#e0eeff"/>
+						</Style>
+						<Style TargetType="RadioButton">
+							<Setter Property="Foreground" Value="Silver"/>
+							<Setter Property="Margin" Value="8 0"/>
+						</Style>
+					</Grid.Resources>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+
+					<Border Grid.Column="0" Grid.Row="0">
+						<DockPanel>
+							<ToolBar DockPanel.Dock="Top">
+								<TextBlock Text="WPF RichTextBox" Foreground="Black"/>
+								<Separator Margin="3 0"/>
+								<Button x:Name="BoldBtn" FontWeight="Bold" BorderBrush="gray" BorderThickness="1" Margin="2" Padding="6 2" Click="BoldBtn_Click">B</Button>
+								<Button x:Name="ItalicBtn" FontStyle="Italic" BorderBrush="gray" BorderThickness="1" Margin="2" Padding="8 2" Click="ItalicBtn_Click">I</Button>
+							</ToolBar>
+
+							<RichTextBox x:Name="RtBox" TextChanged="RichTextBox_TextChanged" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+							</RichTextBox>
+						</DockPanel>
+					</Border>
+
+					<Border Grid.Column="1" Grid.Row="0">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="31"/>
+								<RowDefinition/>
+							</Grid.RowDefinitions>
+
+							<TextBlock Grid.Row="0" Text="XAML Source"/>
+							<TextBox Grid.Row="1" x:Name="XamlBox" Background="#eeeef4" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="WrapWithOverflow" TextChanged="XamlBox_TextChanged"/>
+						</Grid>
+					</Border>
+
+					<GridSplitter Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Stretch" Height="4" Background="Gray" Margin="4 0" Cursor="SizeNS"/>
+
+					<Border Grid.Column="0" Grid.Row="2">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="31"/>
+								<RowDefinition/>
+							</Grid.RowDefinitions>
+
+							<DockPanel>
+								<StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 10 0">
+									<RadioButton x:Name="HtmlFragment" Content="Document Fragment" Click="HtmlFrag_Click"/>
+									<RadioButton x:Name="HtmlDocument" Content="Document with title:" IsChecked="True" Click="HtmlDoc_Click"/>
+									<TextBox x:Name="HtmlTitleText" Text="{Binding Path=HtmlTitle, UpdateSourceTrigger=PropertyChanged}" d:Text="Test" TextChanged="HtmlTitle_Changed"/>
+								</StackPanel>
+
+								<TextBlock Grid.Row="0" Text="HTML Source"/>
+							</DockPanel>
+
+							<TextBox Grid.Row="1" x:Name="HtmlBox" Background="#f4eeee" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="WrapWithOverflow" TextChanged="HtmlBox_TextChanged"/>
+						</Grid>
+					</Border>
+
+					<Border Grid.Column="1" Grid.Row="2">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="31"/>
+								<RowDefinition/>
+							</Grid.RowDefinitions>
+
+
+							<DockPanel>
+								<StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 10 0">
+									<RadioButton x:Name="MdNoYfmt" Content="Without YFMT" Click="NoYfmt_Click"/>
+									<RadioButton x:Name="MdWithYfmt" Content="With YFMT content:" IsChecked="True" Click="WithYfmt_Click"/>
+									<TextBox x:Name="MdYfmtText" Text="{Binding Path=YfmtText, UpdateSourceTrigger=PropertyChanged}" d:Text="Test" TextChanged="MdYfmt_Changed"/>
+								</StackPanel>
+
+								<TextBlock Grid.Row="0" Text="Markdown Source"/>
+							</DockPanel>
+
+							<TextBox Grid.Row="1" x:Name="MdBox" Background="#f2f4ee" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextChanged="MdBox_TextChanged"/>
+						</Grid>
+					</Border>
+
+				</Grid>
+			</DockPanel>
+		</Border>
+	</DockPanel>
+</Window>

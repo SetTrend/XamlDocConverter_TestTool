@@ -1,0 +1,38 @@
+﻿<Window x:Class="WpfRichTextConverterTest.WpfWindows.AboutWin.AboutBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfRichTextConverterTest"
+        mc:Ignorable="d"
+        Title="About WPF Rich Text Converter Test"
+				Height="160" Width="400"
+				WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+				FocusManager.FocusedElement="{Binding ElementName=OkButton}"
+				>
+	<DockPanel>
+		<DockPanel.Background>
+			<LinearGradientBrush>
+				<LinearGradientBrush.GradientStops>
+					<GradientStop Offset="0" Color="#f8f8f8"/>
+					<GradientStop Offset="0.8" Color="#eee"/>
+					<GradientStop Offset="1" Color="#ddd"/>
+				</LinearGradientBrush.GradientStops>
+			</LinearGradientBrush>
+		</DockPanel.Background>
+		<Button x:Name="OkButton" DockPanel.Dock="Bottom" IsDefault="True" Content="OK" HorizontalAlignment="Center" Margin=" 0 0 0 8" Padding="20 4" Click="OK_Click"/>
+
+		<Border Margin="4" Padding="4">
+			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+				<StackPanel.Resources>
+					<Style TargetType="TextBlock">
+						<Setter Property="Margin" Value="5"/>
+					</Style>
+				</StackPanel.Resources>
+
+				<TextBlock Text="Copyright © by Axel Dahmen, Neunkirchen-Seelscheid, Germany" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				<TextBlock x:Name="BuiltTime" d:Text="Test text" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			</StackPanel>
+		</Border>
+	</DockPanel>
+</Window>
